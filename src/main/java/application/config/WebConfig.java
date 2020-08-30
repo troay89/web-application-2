@@ -10,13 +10,15 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.theme.CookieThemeResolver;
 import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
+import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
+import org.springframework.web.servlet.view.tiles3.TilesView;
 
 import java.util.Locale;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "application")
+@ComponentScan(basePackages = {"application"})
 public class WebConfig implements WebMvcConfigurer {
 
     @Override
@@ -43,20 +45,23 @@ public class WebConfig implements WebMvcConfigurer {
         return new ResourceBundleThemeSource();
     }
 
-    @Bean
-    LocaleChangeInterceptor localeChangeinterceptor() {
-        return new LocaleChangeInterceptor();
-    }
 
     @Bean
-    ThemeChangeInterceptor themeChangeinterceptor(){
+    ThemeChangeInterceptor themeChangeinterceptor() {
         return new ThemeChangeInterceptor();
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(localeChangeinterceptor());
+        registry.addInterceptor(localeChangeInterceptor());
         registry.addInterceptor(themeChangeinterceptor());
+    }
+
+    @Bean
+    LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+        interceptor.setParamName("lang");
+        return interceptor;
     }
 
     @Bean
@@ -68,8 +73,9 @@ public class WebConfig implements WebMvcConfigurer {
         return cookieLocaleResolver;
     }
 
+
     @Bean
-    CookieThemeResolver themeResolver(){
+    CookieThemeResolver themeResolver() {
         CookieThemeResolver cookieThemeResolver = new CookieThemeResolver();
         cookieThemeResolver.setDefaultThemeName("standard");
         cookieThemeResolver.setCookieMaxAge(3600);
@@ -77,19 +83,29 @@ public class WebConfig implements WebMvcConfigurer {
         return cookieThemeResolver;
     }
 
-    @Bean
-    InternalResourceViewResolver viewResolver() {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/views/");
-        resolver.setSuffix(".jspx");
-        resolver.setRequestContextAttribute("requestContext");
-        return resolver;
-    }
-
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("singers/list");
     }
 
+    @Bean
+    UrlBasedViewResolver tilesViewResolver() {
+        UrlBasedViewResolver tilesViewResolver = new UrlBasedViewResolver();
+        tilesViewResolver.setViewClass(TilesView.class);
+        return tilesViewResolver;
+    }
 
+    @Bean
+    TilesConfigurer tilesConfigurer() {
+        TilesConfigurer tilesConfigurer = new TilesConfigurer();
+        tilesConfigurer.setDefinitions(
+                "/WEB-INF/layouts/layouts.xml",
+                "/WEB-INF/views/singers/views.xml"
+        );
+        tilesConfigurer.setCheckRefresh(true);
+        return tilesConfigurer;
+    }
 }
+
+
+

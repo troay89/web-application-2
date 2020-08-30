@@ -32,7 +32,6 @@ public class SingerController {
     public String list(Model uiModel){
         log.info("listing singers");
         List<Singer> singers = singerService.findAll();
-        singers.forEach(System.out::println);
         uiModel.addAttribute("singers" , singers);
         log.info("No. of singers: "+ singers.size());
         return "singers/list";
