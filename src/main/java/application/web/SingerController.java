@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -35,5 +36,22 @@ public class SingerController {
         uiModel.addAttribute("singers" , singers);
         log.info("No. of singers: "+ singers.size());
         return "singers/list";
+    }
+
+//    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+//    public String show(@PathVariable("id") Long id, Model uiModel) {
+//        Singer singer = singerService.findById(id);
+//        uiModel.addAttribute("singer", singer);
+//
+//        return "singers/show";
+//    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String show(@PathVariable("id") Long id, Model uiModel){
+        log.info("просмотр певца по id {}", id);
+        Singer singer = singerService.findById(id);
+        uiModel.addAttribute("singer", singer);
+        log.info("певец найден");
+        return "singers/show";
     }
 }

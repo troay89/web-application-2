@@ -11,7 +11,9 @@
     <spring:message code="label_singer_last_name" var="labelSingerLastName"/>
     <spring:message code="label_singer_birth_date" var="labelSingerBirthDate"/>
 
-    <h1><spring:message code="label_singer_list"/></h1>
+    <h1>${labelSingerList}</h1>
+
+    <spring:url value="/singers" var="showSingerUrl"/>
 
     <c:if test="${not empty singers}">
         <table>
@@ -25,7 +27,7 @@
             <tboby>
                 <c:forEach items="${singers}" var="singer">
                     <tr>
-                        <td>${singer.firstName}</td>
+                        <td><a href="${showSingerUrl}/${singer.id}">${singer.firstName}</a></td>
                         <td>${singer.lastName}</td>
                         <td><fmt:formatDate value="${singer.birthDate}"/> </td>
                     </tr>
