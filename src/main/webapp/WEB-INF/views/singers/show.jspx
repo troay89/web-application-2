@@ -15,6 +15,7 @@
     <spring:message code="label_singer_update" var="labelSingerUpdate"/>
     <spring:message code="date_format_pattern" var="dateFormatPattern"/>
     <spring:message code="label_singer_photo" var="labelSingerPhoto"/>
+    <spring:message code="delete" var="labelSingerDelete"/>
 
     <spring:url value="/singers/photo" var="singerPhotoUrl"/>
     <spring:url value="/singers" var="editSingerUrl"/>
@@ -54,6 +55,6 @@
         </tr>
     </table>
 
-        <a href="${editSingerUrl}/${singer.id}?form">${labelSingerUpdate}</a>
+        <a href="${editSingerUrl}/${singer.id}?form">${labelSingerUpdate}</a>  |  <a href="/singers/delete/${singer.id}">${labelSingerDelete}</a>
     </div>
 </div>

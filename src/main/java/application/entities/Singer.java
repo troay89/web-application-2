@@ -3,7 +3,9 @@ package application.entities;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,16 +23,17 @@ public class Singer {
     @Column(name = "version")
     private int version;
 
-    @NotEmpty(message = "{validation.firstname.NotEmpty.message}")
+    @NotBlank(message="{validation.firstname.NotBlank.message}")
     @Size(min = 3, max = 60, message = "{validation.firstname.Size.message}")
     @Column(name = "first_name")
     private String firstName;
 
-    @NotEmpty(message = "{validation.lastname.NotEmpty.message}")
+    @NotBlank(message="{validation.lastname.NotBlank.message}")
     @Size(min = 1, max = 40, message = "{validation.lastname.Size.message}")
     @Column(name = "last_name")
     private String lastName;
 
+    @NotNull
     @Column(name = "birth_date")
     @Temporal(TemporalType.DATE)
     private Date birthDate;
@@ -38,9 +41,9 @@ public class Singer {
     @Column(name = "description")
     private String description;
 
+    //    @Basic(fetch = FetchType.LAZY)
 //    @Lob
 //    @Column(name = "photo")
-//    @Basic(fetch = FetchType.LAZY)
 //    private byte photo;
 
     public Long getId() {

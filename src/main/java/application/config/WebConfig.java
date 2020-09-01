@@ -1,10 +1,14 @@
 package application.config;
 
+import application.util.DateFormatter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.ui.context.support.ResourceBundleThemeSource;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -51,10 +55,13 @@ public class WebConfig implements WebMvcConfigurer {
         return new ThemeChangeInterceptor();
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(localeChangeInterceptor());
-        registry.addInterceptor(themeChangeinterceptor());
+    @Bean
+    CookieThemeResolver themeResolver() {
+        CookieThemeResolver cookieThemeResolver = new CookieThemeResolver();
+        cookieThemeResolver.setDefaultThemeName("standard");
+        cookieThemeResolver.setCookieMaxAge(3600);
+        cookieThemeResolver.setCookieName("theme");
+        return cookieThemeResolver;
     }
 
     @Bean
@@ -73,19 +80,10 @@ public class WebConfig implements WebMvcConfigurer {
         return cookieLocaleResolver;
     }
 
-
-    @Bean
-    CookieThemeResolver themeResolver() {
-        CookieThemeResolver cookieThemeResolver = new CookieThemeResolver();
-        cookieThemeResolver.setDefaultThemeName("standard");
-        cookieThemeResolver.setCookieMaxAge(3600);
-        cookieThemeResolver.setCookieName("theme");
-        return cookieThemeResolver;
-    }
-
     @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("singers/list");
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(localeChangeInterceptor());
+        registry.addInterceptor(themeChangeinterceptor());
     }
 
     @Bean
@@ -104,6 +102,33 @@ public class WebConfig implements WebMvcConfigurer {
         );
         tilesConfigurer.setCheckRefresh(true);
         return tilesConfigurer;
+    }
+
+    @Bean
+    public DateFormatter dateFormatter(){
+        return new DateFormatter();
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry formatterRegistry){
+        formatterRegistry.addFormatter(dateFormatter());
+    }
+
+    @Bean
+    public Validator validator(){
+        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.setValidationMessageSource(messageSource());
+        return validator;
+    }
+
+    @Override
+    public Validator getValidator() {
+        return validator();
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("singers/list");
     }
 }
 

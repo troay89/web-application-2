@@ -10,5 +10,5 @@
     <spring:url value="/singers?form" var="addsingerUrl"/>
 
     <h3>${menuHeaderText}</h3>
-    <а href="${addsingerUrl}"><h3>${menuAddsinger}</h3></а>   <!--    ????-->
+    <a href="${addsingerUrl}"><h3>${menuAddsinger}</h3></a>   <!--    ????-->
 </div>

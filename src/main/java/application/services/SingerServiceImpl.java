@@ -42,7 +42,12 @@ public class SingerServiceImpl implements SingerService{
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Singer> findAllPage(Pageable pageable) {
+    public Page<Singer> findAllByPage(Pageable pageable) {
         return singerRepository.findAll(pageable);
+    }
+
+    @Override
+    public void delete(Singer singer) {
+        singerRepository.delete(singer);
     }
 }

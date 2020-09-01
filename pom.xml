@@ -8,6 +8,13 @@
     <artifactId>Project2</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+
     <build>
         <plugins>
             <plugin>
@@ -21,9 +28,10 @@
         </plugins>
     </build>
 
+
     <dependencies>
 
-<!--        база данных-->
+        <!--        база данных-->
         <!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
         <dependency>
             <groupId>javax.persistence</groupId>
@@ -81,6 +89,30 @@
             <version>5.2.8.RELEASE</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.webjars/ckeditor -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>ckeditor</artifactId>
+            <version>4.14.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.webjars/jqgrid -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jqgrid</artifactId>
+            <version>4.6.0</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.11.1</version>
+        </dependency>
+
+
+
         <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -118,7 +150,7 @@
         </dependency>
 
 
-<!--        безопасность-->
+        <!--        безопасность-->
         <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
         <dependency>
             <groupId>org.springframework.security</groupId>

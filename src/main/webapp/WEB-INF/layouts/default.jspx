@@ -14,6 +14,28 @@
     <spring:url value="/${app_css}" var="app_css_url"/>
     <link rel="stylesheet" type="text/css" media="screen" href="${app_css_url}"/>
 
+    <spring:url value="/scripts/jquery-1.12.4.js" var="jquery_url"/>
+    <spring:url value="/scripts/jquery-ui.min.js" var="jquery_ui_url"/>
+
+    <spring:url value="/styles/custom-theme/jquery-ui.theme.min.css" var="jquery_ui_theme_css"/>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="${jquery_ui_theme_css}"/>
+    <script src="${jquery_url}" type="text/javascript"><jsp:text/></script>
+    <script src="${jquery_ui_url}" type="text/javascript"><jsp:text/></script>
+
+
+    <!-- CKEditor -->
+
+    <script type="text/javascript" src="webjars/ckeditor/4.14.0/basic/ckeditor.js"><jsp:text/></script>
+    <script type="text/javascript" src="webjars/ckeditor/4.14.0/basic/adapters/jquery.js"><jsp:text/></script>
+
+    <!-- qGrid -->
+    <link rel="stylesheet" type="text/css" media="screen" href="webjars/jqgrid/4.6.0/css/ui.jqgrid.css"/>
+    <script type="text/javascript" src="webjars/jqgrid/4.6.0/js/minified/jquery.jqGrid.min.js"><jsp:text/></script>
+    <script type="text/javascript" src="webjars/jqgrid/4.6.0/js/i18n/grid.locale-en.js"><jsp:text/></script>
+
+
+
     <!--        Извлечь пользовательские региональные настройки-->
     <c:set var="userLocale">
         <c:set var="plocale">${pageContext.response.locale}</c:set>

@@ -43,6 +43,12 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:5.2.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.2.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:5.2.8.RELEASE" />
+          <element id="library" level="project" name="Maven: org.webjars:ckeditor:4.14.0" />
+          <element id="library" level="project" name="Maven: org.webjars:jqgrid:4.6.0" />
+          <element id="library" level="project" name="Maven: org.webjars:jquery:1.9.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.11.1" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.11.1" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.11.1" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
           <element id="library" level="project" name="Maven: org.apache.tiles:tiles-jsp:3.0.8" />
           <element id="library" level="project" name="Maven: org.apache.tiles:tiles-servlet:3.0.8" />

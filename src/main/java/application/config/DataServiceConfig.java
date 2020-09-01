@@ -25,7 +25,8 @@ public class DataServiceConfig {
     public DataSource dataSource() {
         try {
             return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).addScripts("classpath:db/shema.sql",
-                    "classpath:db/insert.sql").build();
+                    "classpath:db/insert.sql").setScriptEncoding("UTF-8").build();
+
         }catch (Exception e){
             return null;
         }
@@ -37,6 +38,9 @@ public class DataServiceConfig {
         Properties hibernateProp = new Properties();
         hibernateProp.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
 //        hibernateProp.put("hibernate.hbm2ddl.auto", "create-drop");
+        hibernateProp.put("hibernate.connection.CharSet", "UTF-8");
+        hibernateProp.put("hibernate.connection.useUnicode", true);
+        hibernateProp.put("hibernate.connection.characterEncoding", "UTF-8");
         hibernateProp.put("hibernate.format_sql", true);
         hibernateProp.put("hibernate.use_sql_comments", true);
         hibernateProp.put("hibernate.show_sql", true);
