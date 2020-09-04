@@ -3,6 +3,11 @@ package application.web;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,8 +42,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import javax.validation.Valid;
 
-@RequestMapping(value = "/singers", produces = "application/json; charset=UTF-8"
-)
+@RequestMapping(value = "/singers")
 @Controller
 public class SingerController {
     private final Logger logger = LoggerFactory.getLogger(SingerController.class);
@@ -46,9 +50,7 @@ public class SingerController {
     private SingerService singerService;
     private MessageSource messageSource;
 
-    @RequestMapping(method = RequestMethod.GET
-           ,produces = "application/json; charset=UTF-8"
-           )
+    @RequestMapping(method = RequestMethod.GET)
     public String list(Model uiModel) {
         logger.info("Listing singers");
 
@@ -60,7 +62,7 @@ public class SingerController {
         return "singers/list";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") Long id, Model uiModel) {
         Singer singer = singerService.findById(id);
         uiModel.addAttribute("singer", singer);
@@ -68,7 +70,7 @@ public class SingerController {
         return "singers/show";
     }
 
-    @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+    @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.POST)
     public String update(@Valid Singer singer, BindingResult bindingResult, Model uiModel,
                          HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes,
                          Locale locale) {
@@ -82,19 +84,20 @@ public class SingerController {
         uiModel.asMap().clear();
         redirectAttributes.addFlashAttribute("message", new Message("success",
                 messageSource.getMessage("singer_save_success", new Object[]{}, locale)));
+//        singer.setFirstName("Валера");
         System.out.println(singer.getFirstName() + " " + singer.getLastName());
         singerService.save(singer);
         return "redirect:/singers/" + UrlUtil.encodeUrlPathSegment(singer.getId().toString(),
                 httpServletRequest);
     }
 
-    @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+    @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
     public String updateForm(@PathVariable("id") Long id, Model uiModel) {
         uiModel.addAttribute("singer", singerService.findById(id));
         return "singers/update";
     }
 
-    @RequestMapping(method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+    @RequestMapping(method = RequestMethod.POST)
     public String create(@Valid Singer singer, BindingResult bindingResult, Model uiModel,
                          HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes,
                          Locale locale, @RequestParam(value = "file", required = false) Part file) {
@@ -131,8 +134,7 @@ public class SingerController {
         return "redirect:/singers";
     }
 
-    @RequestMapping(value = "/photo/{id}", method = RequestMethod.GET,
-            produces = "application/json; charset=UTF-8")
+    @RequestMapping(value = "/photo/{id}", method = RequestMethod.GET)
     @ResponseBody
     public byte[] downloadPhoto(@PathVariable("id") Long id) {
         Singer singer = singerService.findById(id);
@@ -146,9 +148,7 @@ public class SingerController {
     }
 
     @PreAuthorize("isAuthenticated()" )
-    @RequestMapping(params = "form", method = RequestMethod.GET
-            , produces = "application/json; charset=UTF-8"
-    )
+    @RequestMapping(params = "form", method = RequestMethod.GET)
     public String createForm(Model uiModel) {
         Singer singer = new Singer();
         uiModel.addAttribute("singer", singer);
@@ -157,9 +157,7 @@ public class SingerController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/listgrid", method = RequestMethod.GET
-            ,produces = "application/json; charset=UTF-8"
-    )
+    @RequestMapping(value = "/listgrid", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public SingerGrid listGrid(@RequestParam(value = "page", required = false) Integer page,
                                @RequestParam(value = "rows", required = false) Integer rows,
                                @RequestParam(value = "sidx", required = false) String sortBy,
@@ -204,7 +202,7 @@ public class SingerController {
         return singerGrid;
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         Singer singer = singerService.findById(id);
         singerService.delete(singer);

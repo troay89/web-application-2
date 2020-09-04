@@ -100,7 +100,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
         registry.addInterceptor(themeChangeinterceptor());
-        registry.addInterceptor(webChangeInterceptor());
+//        registry.addInterceptor(webChangeInterceptor());
     }
 
     @Bean
@@ -153,13 +153,13 @@ public class WebConfig implements WebMvcConfigurer {
         return new StandardServletMultipartResolver();
     }
 
-    @Bean
-    WebContentInterceptor webChangeInterceptor() {
-        WebContentInterceptor webContentInterceptor = new WebContentInterceptor();
-        webContentInterceptor.setCacheSeconds(0);
-        webContentInterceptor.setSupportedMethods("GET", "POST", "PUT", "DELETE");
-        return webContentInterceptor;
-    }
+//    @Bean
+//    WebContentInterceptor webChangeInterceptor() {
+//        WebContentInterceptor webContentInterceptor = new WebContentInterceptor();
+//        webContentInterceptor.setCacheSeconds(0);
+//        webContentInterceptor.setSupportedMethods("GET", "POST", "PUT", "DELETE");
+//        return webContentInterceptor;
+//    }
 
 
     @Bean

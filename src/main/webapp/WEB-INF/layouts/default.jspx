@@ -8,8 +8,8 @@
 <jsp:directive.page contentType="text/html; charset=UTF-8"/>
 <jsp:directive.page pageEncoding="UTF-8"/>
 <head>
-    <meta http-equiv="Context-Type" context="text/html; charset=UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" context="IE=8"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <spring:theme code="styleSheet" var="app_css"/>
     <spring:url value="/${app_css}" var="app_css_url"/>
     <link rel="stylesheet" type="text/css" media="screen" href="${app_css_url}"/>
@@ -67,18 +67,4 @@
 </body>
 </html>
 
-<!--<body class="tundra spring">-->
-<!--<div id="headerWrapper">-->
-<!--    <tiles:insertAttribute name="header" ignore="true"/>-->
-<!--</div>-->
-
-<!--<div id="wrapper">-->
-<!--    <tiles:insertAttribute name="menu" ignore="true"/>-->
-<!--    <div id="main">-->
-<!--        <tiles:insertAttribute name="body"/>-->
-<!--        <tiles:insertAttribute name="footer" ignore="true"/>-->
-<!--    </div>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->
 

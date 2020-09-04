@@ -32,7 +32,7 @@ public class DataServiceConfig {
             SimpleDriverDataSource simpleDriverDataSource = new SimpleDriverDataSource();
             BasicDataSource dataSource = new BasicDataSource();
             dataSource.setDriverClassName("org.postgresql.Driver");
-            dataSource.setUrl("jdbc:postgresql://localhost:5432/singer");
+            dataSource.setUrl("jdbc:postgresql://localhost:5432/singer?useUnicode=yes&characterEncoding=UTF-8");
             dataSource.setUsername("postgres");
             dataSource.setPassword("root");
 
@@ -51,7 +51,7 @@ public class DataServiceConfig {
 //        hibernateProp.put("hibernate.hbm2ddl.auto", "create-drop");
         hibernateProp.put("hibernate.format_sql", false);
         hibernateProp.put("hibernate.use_sql_comments", false);
-        hibernateProp.put("hibernate.hbm2ddl.charset_name","UTF-8");
+//        hibernateProp.put("hibernate.hbm2ddl.charset_name","UTF-8");
 //        hibernateProp.put("hibernate.show_sql", true);
         hibernateProp.put("hibernate.max_fetch_depth", 3);
         hibernateProp.put("hibernate.jdbc.batch_size", 10);

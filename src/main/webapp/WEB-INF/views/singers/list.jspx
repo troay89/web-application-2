@@ -5,7 +5,8 @@
      xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
      xmlns:spring="http://www.springframework.org/tags"
      version="2.0">
-    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
 
@@ -15,11 +16,12 @@
     <spring:message code="label_singer_birth_date" var="labelSingerBirthDate"/>
     <spring:url value="/singers" var="showSingerUrl"/>
 
+
+
     <script type="text/javascript">
         $(function(){
             $("#list").jqGrid({
                 url:'${showSingerUrl}/listgrid',
-                Encoding : 'UTF8',
                 datatype: 'json',
                 mtype: 'GET',
                 colNames:['${labelSingerFirstName}', '${labelSingerLastName}',
