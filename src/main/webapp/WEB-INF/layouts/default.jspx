@@ -47,11 +47,18 @@
 
 <body class="tundra spring">
 <div id="headerWrapper">
-    <tiles:insertAttribute name="header" ignore="true"/>
+    <table>
+        <tr>
+            <td width="55">
+                <div class="banner"></div>
+            </td>
+            <td>
+                <tiles:insertAttribute name="header" ignore="true"/></td>
+        </tr>
+    </table>
 </div>
-
 <div id="wrapper">
-    <tiles:insertAttribute name="menu" ignore="true"/>
+    <tiles:insertAttribute name="menu" ignore="true" />
     <div id="main">
         <tiles:insertAttribute name="body"/>
         <tiles:insertAttribute name="footer" ignore="true"/>
@@ -59,4 +66,19 @@
 </div>
 </body>
 </html>
+
+<!--<body class="tundra spring">-->
+<!--<div id="headerWrapper">-->
+<!--    <tiles:insertAttribute name="header" ignore="true"/>-->
+<!--</div>-->
+
+<!--<div id="wrapper">-->
+<!--    <tiles:insertAttribute name="menu" ignore="true"/>-->
+<!--    <div id="main">-->
+<!--        <tiles:insertAttribute name="body"/>-->
+<!--        <tiles:insertAttribute name="footer" ignore="true"/>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
 

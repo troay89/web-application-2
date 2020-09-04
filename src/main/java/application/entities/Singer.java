@@ -41,10 +41,10 @@ public class Singer {
     @Column(name = "description")
     private String description;
 
-    //    @Basic(fetch = FetchType.LAZY)
-//    @Lob
-//    @Column(name = "photo")
-//    private byte photo;
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
+    @Column(name = "photo")
+    private byte[] photo;
 
     public Long getId() {
         return id;
@@ -94,13 +94,13 @@ public class Singer {
         this.description = description;
     }
 
-//    public byte getPhoto() {
-//        return photo;
-//    }
-//
-//    public void setPhoto(byte photo) {
-//        this.photo = photo;
-//    }
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
 
     @Transient
     public String getBirthDateString(){

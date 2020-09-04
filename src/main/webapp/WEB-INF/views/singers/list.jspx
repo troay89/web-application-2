@@ -1,10 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <div xmlns:jsp="http://java.sun.com/JSP/Page"
      xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:sec="http://www.springframework.org/security/tags"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
      xmlns:spring="http://www.springframework.org/tags"
      version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
+
 
     <spring:message code="label_singer_list" var="labelSingerList"/>
     <spring:message code="label_singer_first_name" var="labelSingerFirstName"/>
@@ -16,6 +19,7 @@
         $(function(){
             $("#list").jqGrid({
                 url:'${showSingerUrl}/listgrid',
+                Encoding : 'UTF8',
                 datatype: 'json',
                 mtype: 'GET',
                 colNames:['${labelSingerFirstName}', '${labelSingerLastName}',

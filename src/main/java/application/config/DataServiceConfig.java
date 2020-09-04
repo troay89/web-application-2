@@ -5,8 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -14,6 +16,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.sql.Driver;
 import java.util.Properties;
 
 @Configuration
@@ -24,10 +27,18 @@ public class DataServiceConfig {
     @Bean
     public DataSource dataSource() {
         try {
-            return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).addScripts("classpath:db/shema.sql",
-                    "classpath:db/insert.sql").setScriptEncoding("UTF-8").build();
+//            return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).addScripts("classpath:db/shema.sql",
+//                    "classpath:db/insert.sql").setScriptEncoding("UTF-8").build();
+            SimpleDriverDataSource simpleDriverDataSource = new SimpleDriverDataSource();
+            BasicDataSource dataSource = new BasicDataSource();
+            dataSource.setDriverClassName("org.postgresql.Driver");
+            dataSource.setUrl("jdbc:postgresql://localhost:5432/singer");
+            dataSource.setUsername("postgres");
+            dataSource.setPassword("root");
 
+            return dataSource;
         }catch (Exception e){
+            System.err.println("ошибка");
             return null;
         }
 
@@ -36,14 +47,12 @@ public class DataServiceConfig {
     @Bean
     public Properties hibernateProperties() {
         Properties hibernateProp = new Properties();
-        hibernateProp.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        hibernateProp.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 //        hibernateProp.put("hibernate.hbm2ddl.auto", "create-drop");
-        hibernateProp.put("hibernate.connection.CharSet", "UTF-8");
-        hibernateProp.put("hibernate.connection.useUnicode", true);
-        hibernateProp.put("hibernate.connection.characterEncoding", "UTF-8");
-        hibernateProp.put("hibernate.format_sql", true);
-        hibernateProp.put("hibernate.use_sql_comments", true);
-        hibernateProp.put("hibernate.show_sql", true);
+        hibernateProp.put("hibernate.format_sql", false);
+        hibernateProp.put("hibernate.use_sql_comments", false);
+        hibernateProp.put("hibernate.hbm2ddl.charset_name","UTF-8");
+//        hibernateProp.put("hibernate.show_sql", true);
         hibernateProp.put("hibernate.max_fetch_depth", 3);
         hibernateProp.put("hibernate.jdbc.batch_size", 10);
         hibernateProp.put("hibernate.jdbc.fetch_size", 50);

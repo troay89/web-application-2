@@ -1,23 +1,39 @@
 package application.config;
 
 import application.util.DateFormatter;
+import application.util.SingerGrid;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.ui.context.support.ResourceBundleThemeSource;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import org.springframework.web.servlet.theme.CookieThemeResolver;
 import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 @Configuration
@@ -84,6 +100,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
         registry.addInterceptor(themeChangeinterceptor());
+        registry.addInterceptor(webChangeInterceptor());
     }
 
     @Bean
@@ -105,17 +122,17 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public DateFormatter dateFormatter(){
+    public DateFormatter dateFormatter() {
         return new DateFormatter();
     }
 
     @Override
-    public void addFormatters(FormatterRegistry formatterRegistry){
+    public void addFormatters(FormatterRegistry formatterRegistry) {
         formatterRegistry.addFormatter(dateFormatter());
     }
 
     @Bean
-    public Validator validator(){
+    public Validator validator() {
         final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
         validator.setValidationMessageSource(messageSource());
         return validator;
@@ -130,6 +147,43 @@ public class WebConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("singers/list");
     }
+
+    @Bean
+    StandardServletMultipartResolver multipartResolver() {
+        return new StandardServletMultipartResolver();
+    }
+
+    @Bean
+    WebContentInterceptor webChangeInterceptor() {
+        WebContentInterceptor webContentInterceptor = new WebContentInterceptor();
+        webContentInterceptor.setCacheSeconds(0);
+        webContentInterceptor.setSupportedMethods("GET", "POST", "PUT", "DELETE");
+        return webContentInterceptor;
+    }
+
+
+    @Bean
+    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+        MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
+        jsonConverter.setDefaultCharset(StandardCharsets.UTF_8);
+        return jsonConverter;
+    }
+
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        WebMvcConfigurer.super.configureMessageConverters(converters);
+        converters.add(mappingJackson2HttpMessageConverter());
+    }
+
+//    @Bean
+//    public HttpMessageConverter<String> responseBodyConverter() {
+//        StringHttpMessageConverter converter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
+//        converter.setSupportedMediaTypes(Arrays.asList(new MediaType("text", "plain", StandardCharsets.UTF_8)));
+//        return converter;
+//
+//    }
+
 }
 
 
