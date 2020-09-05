@@ -22,7 +22,7 @@
         });
     </script>
 
-    <jsp:directive.page contentType="text/html; charset=UTF-8"/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
     <spring:message code="label_singer_new" var="labelSingerNew"/>
@@ -32,6 +32,8 @@
     <spring:message code="label_singer_birth_date" var="labelSingerBirthDate"/>
     <spring:message code="label_singer_description" var="labelSingerDescription"/>
     <spring:message code="label_singer_photo" var="labelSingerPhoto"/>
+    <spring:message code="save" var="save"/>
+    <spring:message code="reset" var="reset"/>
 
     <spring:eval expression="singer.id == null ? labelSingerNew:labelSingerUpdate"
                  var="formTitle"/>
@@ -81,19 +83,17 @@
             </div>
             <p/>
 
-            <label for="file">
-                ${labelSingerPhoto}
-            </label>
+            <label for="file">${labelSingerPhoto}</label>
             <input name="file" type="file"/>
             <p/>
 
             <form:hidden path="version" />
 
             <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-                <span class="ui-button-text">Save</span>
+                <span class="ui-button-text">${save}</span>
             </button>
             <button type="reset" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-                <span class="ui-button-text">Reset</span>
+                <span class="ui-button-text">${reset}</span>
             </button>
         </form:form>
     </div>

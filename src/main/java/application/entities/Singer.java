@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
-@Table(name = "singer")
+@Table(name = "singer", uniqueConstraints = {@UniqueConstraint( columnNames = {"first_name", "last_name"}, name = "singer_unique_firstname_lastname_idx")})
 public class Singer {
 
     @Id

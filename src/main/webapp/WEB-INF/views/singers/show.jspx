@@ -3,9 +3,9 @@
      xmlns:c="http://java.sun.com/jsp/jstl/core"
      xmlns:spring="http://www.springframework.org/tags"
      xmlns:sec="http://www.springframework.org/security/tags"
-     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" version="2.0">
-
-    <jsp:directive.page contentType="text/html; charset=UTF-8"/>
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
     <spring:message code="label_singer_info" var="labelSingerInfo"/>
@@ -16,7 +16,7 @@
     <spring:message code="label_singer_update" var="labelSingerUpdate"/>
     <spring:message code="date_format_pattern" var="dateFormatPattern"/>
     <spring:message code="label_singer_photo" var="labelSingerPhoto"/>
-    <spring:message code="delete" var="labelSingerDelete"/>
+    <spring:message code="label_Singer_Delete" var="labelSingerDelete"/>
 
     <spring:url value="/singers/photo" var="singerPhotoUrl"/>
     <spring:url value="/singers" var="editSingerUrl"/>
@@ -25,9 +25,9 @@
 
     <div id="singerInfo">
 
-    <c:if test="${not empty message}">
-        <div id="message" class="${message.type}"> ${message.message}</div>
-    </c:if>
+        <c:if test="${not empty message}">
+            <div id="message" class="${message.type}">${message.message}</div>
+        </c:if>
 
     <table>
         <tr>
@@ -59,6 +59,5 @@
             <sec:authorize access="hasRole('ROLE_USER')">
                 <a href="${editSingerUrl}/${singer.id}?form">${labelSingerUpdate}</a>  |  <a href="/singers/delete/${singer.id}">${labelSingerDelete}</a>
             </sec:authorize>
-
     </div>
 </div>

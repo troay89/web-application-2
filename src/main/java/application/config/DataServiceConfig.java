@@ -29,12 +29,17 @@ public class DataServiceConfig {
         try {
 //            return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).addScripts("classpath:db/shema.sql",
 //                    "classpath:db/insert.sql").setScriptEncoding("UTF-8").build();
-            SimpleDriverDataSource simpleDriverDataSource = new SimpleDriverDataSource();
+
             BasicDataSource dataSource = new BasicDataSource();
+//            dataSource.setDriverClassName("org.postgresql.Driver");
+//            dataSource.setUrl("jdbc:postgresql://localhost:5432/singer?useUnicode=yes&characterEncoding=UTF-8");
+//            dataSource.setUsername("postgres");
+//            dataSource.setPassword("root");
+
             dataSource.setDriverClassName("org.postgresql.Driver");
-            dataSource.setUrl("jdbc:postgresql://localhost:5432/singer?useUnicode=yes&characterEncoding=UTF-8");
-            dataSource.setUsername("postgres");
-            dataSource.setPassword("root");
+            dataSource.setUrl("jdbc:postgresql://ec2-54-246-85-151.eu-west-1.compute.amazonaws.com:5432/denc5rnro3oc6c");
+            dataSource.setUsername("pakgwudfgkqvit");
+            dataSource.setPassword("f0cf31de19759cf54dd65d88043688746bb59fbd7405fb79075692e761c0bfc5");
 
             return dataSource;
         }catch (Exception e){

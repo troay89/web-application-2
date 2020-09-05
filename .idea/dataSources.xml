@@ -7,5 +7,15 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/singer</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="heroku" uuid="f69e6c70-24fe-4cc2-8d25-8cb597e8c0cb">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ec2-54-246-85-151.eu-west-1.compute.amazonaws.com:5432/denc5rnro3oc6c</jdbc-url>
+      <driver-properties>
+        <property name="ssl" value="ture" />
+        <property name="sslfactory" value="org.postgresql.ssl.NonValidatingFactory" />
+      </driver-properties>
+    </data-source>
   </component>
 </project>

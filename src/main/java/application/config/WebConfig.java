@@ -90,7 +90,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     CookieLocaleResolver localeResolver() {
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
-        cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
+        cookieLocaleResolver.setDefaultLocale(Locale.getDefault());
         cookieLocaleResolver.setCookieMaxAge(3600);
         cookieLocaleResolver.setCookieName("locale");
         return cookieLocaleResolver;
@@ -100,7 +100,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
         registry.addInterceptor(themeChangeinterceptor());
-//        registry.addInterceptor(webChangeInterceptor());
+        registry.addInterceptor(webChangeInterceptor());
     }
 
     @Bean
@@ -153,36 +153,13 @@ public class WebConfig implements WebMvcConfigurer {
         return new StandardServletMultipartResolver();
     }
 
-//    @Bean
-//    WebContentInterceptor webChangeInterceptor() {
-//        WebContentInterceptor webContentInterceptor = new WebContentInterceptor();
-//        webContentInterceptor.setCacheSeconds(0);
-//        webContentInterceptor.setSupportedMethods("GET", "POST", "PUT", "DELETE");
-//        return webContentInterceptor;
-//    }
-
-
     @Bean
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-        MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
-        jsonConverter.setDefaultCharset(StandardCharsets.UTF_8);
-        return jsonConverter;
+    WebContentInterceptor webChangeInterceptor() {
+        WebContentInterceptor webContentInterceptor = new WebContentInterceptor();
+        webContentInterceptor.setCacheSeconds(0);
+        webContentInterceptor.setSupportedMethods("GET", "POST", "PUT", "DELETE");
+        return webContentInterceptor;
     }
-
-
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        WebMvcConfigurer.super.configureMessageConverters(converters);
-        converters.add(mappingJackson2HttpMessageConverter());
-    }
-
-//    @Bean
-//    public HttpMessageConverter<String> responseBodyConverter() {
-//        StringHttpMessageConverter converter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
-//        converter.setSupportedMediaTypes(Arrays.asList(new MediaType("text", "plain", StandardCharsets.UTF_8)));
-//        return converter;
-//
-//    }
 
 }
 

@@ -52,12 +52,12 @@ public class SingerController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model uiModel) {
-        logger.info("Listing singers");
-
-        List<Singer> singers = singerService.findAll();
-        uiModel.addAttribute("singers", singers);
-
-        logger.info("No. of singers: " + singers.size());
+//        logger.info("Listing singers");
+//
+//        List<Singer> singers = singerService.findAll();
+//        uiModel.addAttribute("singers", singers);
+//
+//        logger.info("No. of singers: " + singers.size());
 
         return "singers/list";
     }
@@ -73,7 +73,7 @@ public class SingerController {
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.POST)
     public String update(@Valid Singer singer, BindingResult bindingResult, Model uiModel,
                          HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes,
-                         Locale locale) {
+                         Locale locale, @RequestParam(value = "file", required = false) Part file ) {
         logger.info("Updating singer");
         if (bindingResult.hasErrors()) {
             uiModel.addAttribute("message", new Message("error",
@@ -82,15 +82,27 @@ public class SingerController {
             return "singers/update";
         }
         uiModel.asMap().clear();
-        redirectAttributes.addFlashAttribute("message", new Message("success",
-                messageSource.getMessage("singer_save_success", new Object[]{}, locale)));
-//        singer.setFirstName("Валера");
-        System.out.println(singer.getFirstName() + " " + singer.getLastName());
+        redirectAttributes.addFlashAttribute("message", new Message("success", messageSource.getMessage("singer_save_success", new Object[]{}, locale)));
+        if (file.getSize() > 0) {
+            logger.info("File name: " + file.getName());
+            logger.info("File size: " + file.getSize());
+            logger.info("File content type: " + file.getContentType());
+            byte[] fileContent = null;
+            try {
+                InputStream inputStream = file.getInputStream();
+                if (inputStream == null) logger.info("File inputstream is null");
+                fileContent = IOUtils.toByteArray(inputStream);
+            } catch (IOException ex) {
+                logger.error("Error saving uploaded file");
+            }
+            singer.setPhoto(fileContent);
+        }
         singerService.save(singer);
         return "redirect:/singers/" + UrlUtil.encodeUrlPathSegment(singer.getId().toString(),
                 httpServletRequest);
     }
 
+    @PreAuthorize("isAuthenticated()" )
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
     public String updateForm(@PathVariable("id") Long id, Model uiModel) {
         uiModel.addAttribute("singer", singerService.findById(id));
@@ -115,7 +127,7 @@ public class SingerController {
         logger.info("Singer id: " + singer.getId());
 
         // Process upload file
-        if (file != null) {
+        if (file.getSize() > 0) {
             logger.info("File name: " + file.getName());
             logger.info("File size: " + file.getSize());
             logger.info("File content type: " + file.getContentType());
@@ -157,7 +169,7 @@ public class SingerController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/listgrid", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/listgrid", method = RequestMethod.GET, produces="application/json")
     public SingerGrid listGrid(@RequestParam(value = "page", required = false) Integer page,
                                @RequestParam(value = "rows", required = false) Integer rows,
                                @RequestParam(value = "sidx", required = false) String sortBy,
@@ -202,6 +214,7 @@ public class SingerController {
         return singerGrid;
     }
 
+    @PreAuthorize("isAuthenticated()" )
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         Singer singer = singerService.findById(id);

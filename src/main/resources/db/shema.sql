@@ -12,5 +12,5 @@ CREATE TABLE SINGER
     PHOTO       bigint,
     VERSION     INT         NOT NULL             DEFAULT 0
 );
-CREATE UNIQUE INDEX singer_unique_firstname_lastname_idx on SINGER(FIRST_NAME, LAST_NAME)
+-- CREATE UNIQUE INDEX singer_unique_firstname_lastname_idx on SINGER(FIRST_NAME, LAST_NAME)
 
