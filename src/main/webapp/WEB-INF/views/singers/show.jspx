@@ -23,6 +23,8 @@
 
     <h1>${labelSingerInfo}</h1>
 
+
+
     <div id="singerInfo">
 
         <c:if test="${not empty message}">

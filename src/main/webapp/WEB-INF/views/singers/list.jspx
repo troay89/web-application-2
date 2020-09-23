@@ -60,7 +60,7 @@
         <div id="message" class="${message.type}">${message.message}</div>
     </c:if>
 
-    <h2>${labelSingerList}</h2>
+    <h2>чтобы войти введите логин и пароль: user</h2>
 
     <div>
         <table id="list"><tr><td/></tr></table>
